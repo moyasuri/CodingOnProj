@@ -5,8 +5,8 @@ using namespace std;
 #include<stdlib.h>    // srand, rand
 #include<time.h>    // time_t, clock, difftime
 #include<conio.h>
-#include <algorithm>
-#include <set>
+#include<algorithm>
+#include<set>
 
 //1)
 //제한 시간 30초 동안 플레이어는 끝말잇기 규칙에 따라 단어를 입력
@@ -17,88 +17,90 @@ using namespace std;
 
 
 
+bool TimeOut()
+{
+    int keyin;
+    time_t new_time, old_time;
+    old_time = clock();        // 시작 시간 
+    keyin = 1;                // 키입력 초기값 
+    int DELAY = 30000;
+    string input;
+    int x, y, sum;
+
+
+
+    while (1) {
+        do {
+            new_time = clock();    // 현재 시간 
+            if (difftime(new_time, old_time) > DELAY) {    // 시간 초과 검사 
+                keyin = 0;        // 키입력이 없음 
+                break;
+            }
+        } while (!kbhit());        // 키가 안 눌린 동안 
+
+        if (keyin == 1) {
+            
+            cout << input;       // 답을 받음 
+
+            /* enter키를 치는 시점에 시간 계산을 위해 추가할 내용 */
+            new_time = clock();    // 현재 시간 
+            if (difftime(new_time, old_time) > DELAY)    
+
+        }
+    }
+}
+
 
 int main()
 {
-    //int keyin;
-    //time_t new_time, old_time;
-    //old_time = clock();        // 시작 시간 
-    //keyin = 1;                // 키입력 초기값 
-    //int DELAY = 30000;
 
-    //int x, y, answer, sum;
-
-
-    //while (1) {
-    //    do {
-    //        new_time = clock();    // 현재 시간 
-    //        if (difftime(new_time, old_time) > DELAY) {    // 시간 초과 검사 
-    //            answer = 0;        // 답이 없음 
-    //            keyin = 0;        // 키입력이 없음 
-    //            break;
-    //        }
-    //    } while (!kbhit());        // 키가 안 눌린 동안 
-
-    //    if (keyin == 1) {
-    //        cout<<        // 답을 받음 
-
-    //        /* enter키를 치는 시점에 시간 계산을 위해 추가할 내용 */
-    //        new_time = clock();    // 현재 시간 
-    //        if (difftime(new_time, old_time) > DELAY)    answer = 0;
-
-    //    }
-    //}
 
 
 
 
     set<string> con_String;
-
-    // set 집합에서 같은걸 쳤는지 확인하는 방법
-
-    // 출력하는 방법
     string input;
     int ex_size;
     bool overlap =true;
 
+    TimeOut();
 
-    // set<string>::iterator it = con_String.begin();
 
-    while (1)
-    {
-        
-        do {
-            ex_size = con_String.size();
-            cout << "다음 단어를 입력하세요 : ";
-            cin >> input;
-            con_String.insert(input);
-            if (con_String.size() == ex_size) // 중복된 단어
-            {
-                
-                overlap = true;
-            }
-            else {
-                overlap = false;
-            }
-            
-            if (overlap)
-            {
-                cout << "중복된 단어 입니다" << endl << endl;
-            }
+    //while (1)
+    //{
+    //    
+    //    do {
+    //        ex_size = con_String.size();
+    //        cout << "다음 단어를 입력하세요 : ";
+    //        cin >> input;
+    //        con_String.insert(input);
+    //        if (con_String.size() == ex_size) // 중복된 단어
+    //        {
+    //            
+    //            overlap = true;
+    //        }
+    //        else {
+    //            overlap = false;
+    //        }
+    //        
+    //        if (overlap)
+    //        {
+    //            cout << "중복된 단어 입니다" << endl << endl;
+    //        }
 
-                
+    //            
 
-        } while (overlap);
-        
-        
+    //    } while (overlap);
+    //    
+    //    
 
-        for (set<string>::iterator it = con_String.begin() ; it != con_String.end();it++)
-        {
-            cout << *it << " >> ";
-            
-        }
-        cout << endl;
-    }
+    //    for (set<string>::iterator it = con_String.begin() ; it != con_String.end();it++)
+    //    {
+    //        cout << *it << " >> ";
+    //        
+    //    }
+    //    cout << endl;
+    //}
 
 
 
