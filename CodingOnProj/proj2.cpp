@@ -1,112 +1,121 @@
 #include <iostream>
+#include <Windows.h>
 #include <vector>
+#include <set>
+#include <string>
 using namespace std;
-#include<stdio.h>
-#include<stdlib.h>    // srand, rand
-#include<time.h>    // time_t, clock, difftime
-#include<conio.h>
-#include<algorithm>
-#include<set>
 
-//1)
-//제한 시간 30초 동안 플레이어는 끝말잇기 규칙에 따라 단어를 입력
-//2)
-//제한 시간이 종료되면 게임을 종료 시키고 입력한 단어의 개수를 출력
-//3)
-//단, 한번 입력된 단어는 입력하지 못하게 하기
+int main() {
+    const int timeLimitInSeconds = 30; // 시간 제한(초)
 
 
+    DWORD bytesRead;
+    string userInput;
+    bool overlap;
+    int ex_size;
 
-bool TimeOut()
-{
-    int keyin;
-    time_t new_time, old_time;
-    old_time = clock();        // 시작 시간 
-    keyin = 1;                // 키입력 초기값 
-    int DELAY = 30000;
-    string input;
-    int x, y, sum;
+    HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
+    INPUT_RECORD ir[128];
+
+    vector<string> myVector ;
+    int v_size;
+    string lastElement;
+
+    
+    // 시작 시간을 기록합니다.
+    DWORD startTime;
+    bool chk = true;
+    bool chk_2 = true;
+    string ex_element;
+
+    cout << "끝말잇기 시작 : 단어를 입력해주세요" << endl;
+    cin >> userInput;
+    myVector.push_back(userInput);
+
+    while (chk) {
+
+        cout << "다음 단어를 입력하세요 : ";
+        startTime = GetTickCount64();
+        chk_2 = true;
+        while (chk_2) {
 
 
 
-    while (1) {
-        do {
-            new_time = clock();    // 현재 시간 
-            if (difftime(new_time, old_time) > DELAY) {    // 시간 초과 검사 
-                keyin = 0;        // 키입력이 없음 
+            // 현재 시간을 가져옵니다.
+            DWORD currentTime = GetTickCount64();
+
+            // 경과 시간을 계산합니다.
+            DWORD elapsedTime = currentTime - startTime;
+
+            // 시간 제한을 초과하면 종료합니다.
+            if (elapsedTime >= timeLimitInSeconds * 1000) {
+                cout << "시간 제한 초과! 프로그램 종료합니다." << endl;
+                chk = false;
                 break;
             }
-        } while (!kbhit());        // 키가 안 눌린 동안 
 
-        if (keyin == 1) {
-            
-            cout << input;       // 답을 받음 
+            // 입력 이벤트를 비동기적으로 확인합니다.
+            if (PeekConsoleInput(hStdin, ir, 128, &bytesRead)) {
+                for (DWORD i = 0; i < bytesRead; i++) {
+                    if (ir[i].EventType == KEY_EVENT && ir[i].Event.KeyEvent.bKeyDown) {
+                        // userInput = ir[i].Event.KeyEvent.uChar.AsciiChar;
 
-            /* enter키를 치는 시점에 시간 계산을 위해 추가할 내용 */
-            new_time = clock();    // 현재 시간 
-            if (difftime(new_time, old_time) > DELAY)    
+                        // 스펠체크
+                        cin >> userInput;
+                        myVector.push_back(userInput);
+                        v_size = myVector.size();
+                        ex_element = myVector[v_size- 2]; // 이전 원소
+                        
+                        
+                        if (ex_element[ex_element.size()-1] != userInput[0])
+                        {
+                            myVector.pop_back();
+                            cout << "잘못된 단어입니다." << endl;
+                            cout << "다음 단어를 입력하세요 : ";
+                            break;
+                        }
 
+                        // 중복 확인
+                        
+                        bool isDuplicate = false;
+                        lastElement = myVector.back(); // 마지막으로 추가 된 원소
+
+                        for (int i = 0; i < myVector.size() - 1; ++i) {
+                            if (myVector[i] == lastElement) {
+                                cout << "중복된 단어입니다" << endl;;
+                                isDuplicate = true;
+                                break;
+                            }
+                        }
+
+                        // 중복이 있다면 마지막 원소 제거
+                        if (isDuplicate) {
+                            myVector.pop_back();
+                        }
+                        
+                        for (const string& str : myVector)
+                        {
+                            if (str == myVector[0])
+                            {
+                                cout << str;
+                            }
+                            else
+                            {
+                                cout << "->" << str;
+                            }
+                        }
+                        cout << endl;
+                        // startTime = GetTickCount64();
+                        chk_2 = false;
+                        break;
+                    }
+                }
+            }
+
+            // 입력 이벤트가 없으면 잠시 대기합니다.
+            Sleep(10);
         }
+
     }
+    return 0;
 }
-
-
-int main()
-{
-
-
-
-
-
-    set<string> con_String;
-    string input;
-    int ex_size;
-    bool overlap =true;
-
-    TimeOut();
-
-
-    //while (1)
-    //{
-    //    
-    //    do {
-    //        ex_size = con_String.size();
-    //        cout << "다음 단어를 입력하세요 : ";
-    //        cin >> input;
-    //        con_String.insert(input);
-    //        if (con_String.size() == ex_size) // 중복된 단어
-    //        {
-    //            
-    //            overlap = true;
-    //        }
-    //        else {
-    //            overlap = false;
-    //        }
-    //        
-    //        if (overlap)
-    //        {
-    //            cout << "중복된 단어 입니다" << endl << endl;
-    //        }
-
-    //            
-
-    //    } while (overlap);
-    //    
-    //    
-
-    //    for (set<string>::iterator it = con_String.begin() ; it != con_String.end();it++)
-    //    {
-    //        cout << *it << " >> ";
-    //        
-    //    }
-    //    cout << endl;
-    //}
-
-
-
-
-
-
-}
-
-

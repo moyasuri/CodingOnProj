@@ -1,50 +1,34 @@
 #include <iostream>
 #include <Windows.h>
-
+#include <vector>
+#include<set>
 using namespace std;
 
 int main() {
     const int timeLimitInSeconds = 5; // 시간 제한(초)
 
-    cout << "숫자를 입력하세요: ";
-
+    
     DWORD bytesRead;
-    char userInput;
+    string userInput;
+    bool overlap;
+    int ex_size;
 
     HANDLE hStdin = GetStdHandle(STD_INPUT_HANDLE);
     INPUT_RECORD ir[128];
-
+    set<string> _str;
     // 시작 시간을 기록합니다.
-    DWORD startTime = GetTickCount64();
-    while (true) {
-        while (true) {
-            // 현재 시간을 가져옵니다.
-            DWORD currentTime = GetTickCount64();
+    DWORD startTime; 
+    bool chk = true;
+    bool chk_2 = true;
+    string letter_chk;
 
-            // 경과 시간을 계산합니다.
-            DWORD elapsedTime = currentTime - startTime;
+    cout << "끝말잇기 시작 : 단어를 입력해주세요" <<endl;
+    cin >> userInput;
+    _str.insert(userInput);
 
-            // 시간 제한을 초과하면 종료합니다.
-            if (elapsedTime >= timeLimitInSeconds * 1000) {
-                cout << "시간 제한 초과! 프로그램 종료합니다." << endl;
-                return 1;
-            }
 
-            // 입력 이벤트를 비동기적으로 확인합니다.
-            if (PeekConsoleInput(hStdin, ir, 128, &bytesRead)) {
-                for (DWORD i = 0; i < bytesRead; i++) {
-                    if (ir[i].EventType == KEY_EVENT && ir[i].Event.KeyEvent.bKeyDown) {
-                        userInput = ir[i].Event.KeyEvent.uChar.AsciiChar;
-                        cout << "입력한 문자: " << userInput << endl;
-                        return 0;
-                    }
-                }
-            }
+    letter_chk = *(--_str.end());
 
-            // 입력 이벤트가 없으면 잠시 대기합니다.
-            Sleep(100);
-        }
-
-    }
+    if (letter_chk[letter_chk.size()] == *userInput.begin())
     return 0;
 }
