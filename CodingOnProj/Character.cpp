@@ -1,11 +1,11 @@
 #include "Character.h"
-
 #include "Gun.h"
 #include "Sword.h"
 
 
-Character::Character()
+Character::Character(std::string str)
 {
+	_name = str;
 	_hp = 50;
 }
 Character::~Character()
@@ -13,53 +13,87 @@ Character::~Character()
 
 }
 
+
+
+
 void Character::LootingWeapon(int _WeaponType)
 {
-	if (_WeaponType == Gun)
+	Weapon* newWeapon = nullptr;
+	if (_WeaponType == WeaponType::GUN)
 	{
-		_Weapon.push_back(new Gun());
+		newWeapon = new Gun();
 	}
-	if (_WeaponType == Sword)
+	else if (_WeaponType == WeaponType::SWORD)
 	{
-		_Weapon.push_back(new Sword);
+		newWeapon = new Sword();
 	}
+
+	if (newWeapon != nullptr)
+	{
+		_Weapon.push_back(newWeapon);
+	}
+
+	SetNumWeapons(GetNumWeapons() + 1);
 	
 }
 
 void Character::AttackPlayer(Character& _cha_att, Character& _cha_def)
 {
+	// if(Cha)
+	
 	int temp_cmd = 0;
+	int temp_cmd2 = 0;
+
+	std::cout << "무기를 루팅해주세요, 0 : GUN, 1 : SWORD " << std::endl;
+	std::cin >> temp_cmd2;
+	LootingWeapon(temp_cmd2);
+	PrintWeaponStatus(_cha_att._Weapon);
+
 	std::cout << "어떤 무기로 공격하시겠습니까?" << std::endl;
 	std::cin >> temp_cmd;
-	_cha_def._hp - _cha_att._Weapon[temp_cmd]->GetDamage();
+	
+	_cha_def._hp = _cha_def._hp - _cha_att._Weapon[temp_cmd]->GetDamage();
 	_cha_att._Weapon[temp_cmd]->Attack();
+
+	PrintPlayerStatus(_cha_att, _cha_def);
+
+
 }
 
 void Character::PrintWeaponStatus(const std::vector<Weapon*> _Weapon)
 {
-	
+	int i = 0;
+	std::string s_tmp = "";
+
+
 	for (Weapon* weapon : _Weapon)
 	{
-		std::cout << "무기 타입은 : " <<  weapon->GetWeaponType() << std::endl;
-		std::cout << "남은 공격횟수는 " << weapon->GetAttacksLeft() << std::endl;
+		if (weapon->GetWeaponType() == 0)
+		{
+			s_tmp = "GUN";
+		}
+		else if (weapon->GetWeaponType() == 1)
+		{
+			s_tmp = "SWORD";
+		}
+		std::cout << "[" << i<< "] 번째 무기 타입은 " << s_tmp << " 남은 공격횟수는 " << weapon->GetAttacksLeft() << "입니다." <<  std::endl;
+		++i;
 	}
-	
-
 }
 
 void Character::PrintPlayerStatus(const Character& _cha_att, const Character& _cha_def)
 {
-	std::cout << "공격자의 hp : " << _cha_att.GetHP(_cha_att) << std::endl;
-	std::cout << "방어자의 hp : " << _cha_def.GetHP(_cha_def) << std::endl;
+	std::cout << "공격자" << _cha_att.GetName() << "의 hp : " << _cha_att.GetHP() << std::endl;
+	std::cout << "방어자" << _cha_def.GetName() << "의 hp : " << _cha_def.GetHP() << std::endl;
 	
 }
 
 // Getter and Setter for _hp
-int Character::GetHP(const Character& cha) const{
-	return cha._hp;
+int Character::GetHP() const{
+	return _hp;
 }
 
-void Character::SetHP(Character& cha, int hp){
+void Character::SetHP(int hp){
 	_hp = hp;
 }
 
@@ -71,3 +105,4 @@ int Character::GetLevel(const Character& cha) const {
 void Character::SetLevel(Character& cha, int level) {
 	_level = level;
 }
+

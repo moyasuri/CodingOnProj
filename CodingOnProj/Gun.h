@@ -3,6 +3,7 @@
 
 class Gun : public Weapon
 {
+public:
 	Gun();
 	void Attack();
 

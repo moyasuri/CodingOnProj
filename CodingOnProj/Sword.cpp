@@ -3,8 +3,8 @@
 Sword::Sword()
 {
 	SetDamage(5);
-	SetDamage(3);
-	SetWeaponType(WeaponType::Sword);
+	SetAttacksLeft(3);
+	SetWeaponType(SWORD);
 }
 
 void Sword::Attack()

@@ -3,10 +3,11 @@
 
 enum WeaponType
 {
-	Gun,
-	Sword,
+	GUN,
+	SWORD,
 
 };
+
 class Weapon
 {
 
@@ -53,11 +54,13 @@ public:
 	void SetWeaponType(int WeaponType) {
 		_WeaponType = WeaponType;
 	}
+
+
 private:
 	int _damage;
 	int _attacksLeft;
 	int _WeaponType;
-
+	
 
 };
 

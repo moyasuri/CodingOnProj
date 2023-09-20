@@ -4,9 +4,9 @@
 
 Gun::Gun()
 {
-	SetDamage(10);
+	SetDamage(100);
 	SetAttacksLeft(1);
-	SetWeaponType(WeaponType::Gun);
+	SetWeaponType(GUN);
 }
 
 void Gun::Attack()
