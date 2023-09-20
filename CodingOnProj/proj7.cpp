@@ -66,7 +66,12 @@ void removePlayer(std::vector<Character*>& _myVec)
 		if (_myVec[i]->GetHP() < 0)
 		{
 			cout << _myVec[i]->GetName() << "은 죽었습니다." << endl;
+			Character* temp = _myVec[i];
+			
 			_myVec.erase(_myVec.begin() + i);
+			delete temp;
+			
+			
 		}
 		else {
 			++i;
