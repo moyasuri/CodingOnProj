@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="prj7">
+      <UniqueIdentifier>{0ec878ea-1a6d-42dc-a6a5-6e643aad8543}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="prj7\header">
+      <UniqueIdentifier>{9c0de75b-2133-45bb-9cd5-51dde64089a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="prj7\cpp">
+      <UniqueIdentifier>{3a43ac7c-4ff9-4e2b-90ed-8579e8391924}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -57,5 +66,34 @@
     <ClCompile Include="proj6.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="proj7.cpp">
+      <Filter>prj7</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>prj7\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>prj7\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Sword.cpp">
+      <Filter>prj7\cpp</Filter>
+    </ClCompile>
+    <ClCompile Include="Gun.cpp">
+      <Filter>prj7\cpp</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Character.h">
+      <Filter>prj7\header</Filter>
+    </ClInclude>
+    <ClInclude Include="Gun.h">
+      <Filter>prj7\header</Filter>
+    </ClInclude>
+    <ClInclude Include="Sword.h">
+      <Filter>prj7\header</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>prj7\header</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
