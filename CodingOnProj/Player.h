@@ -47,6 +47,13 @@ public:
 
 	}
 
+	// Immortal 함수를 오버라이드
+	void Immortal(int duration) override {
+		// Knight 클래스에서 Immortal 함수의 동작 재정의
+		std::cout << "Knight의 Immortal이 " << duration << " 턴 동안 활성화됩니다." << std::endl;
+		// 여기서 Immortal의 추가 동작을 구현할 수 있습니다.
+	}
+
 protected:
 	int _playerType;
 	std::vector<std::pair<std::string, int>> _item; // 아이템
@@ -65,12 +72,7 @@ public:
 
 	}
 
-	// Immortal 함수를 오버라이드
-	void Immortal(int duration) override {
-		// Knight 클래스에서 Immortal 함수의 동작 재정의
-		std::cout << "Knight의 Immortal이 " << duration << " 턴 동안 활성화됩니다." << std::endl;
-		// 여기서 Immortal의 추가 동작을 구현할 수 있습니다.
-	}
+
 
 };
 
@@ -99,6 +101,4 @@ public:
 		_defence = 0;
 
 	}
-
-
 };

@@ -25,6 +25,12 @@
     <Filter Include="prj8">
       <UniqueIdentifier>{4df5b383-5295-4e55-97e3-c5c8a6f56924}</UniqueIdentifier>
     </Filter>
+    <Filter Include="prj8\Header">
+      <UniqueIdentifier>{571d4894-7142-466b-bebe-ed65fed7d6d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="prj8\CPP">
+      <UniqueIdentifier>{4a3d92b9-4fab-42e3-9920-9adb4151a88b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -84,23 +90,23 @@
     <ClCompile Include="Gun.cpp">
       <Filter>prj7\cpp</Filter>
     </ClCompile>
-    <ClCompile Include="CPP_Study.cpp">
-      <Filter>prj8</Filter>
-    </ClCompile>
-    <ClCompile Include="Creature.cpp">
-      <Filter>prj8</Filter>
-    </ClCompile>
-    <ClCompile Include="Field.cpp">
-      <Filter>prj8</Filter>
-    </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>prj8</Filter>
-    </ClCompile>
-    <ClCompile Include="Monster.cpp">
+    <ClCompile Include="Prj8.cpp">
       <Filter>prj8</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>prj8</Filter>
+      <Filter>prj8\CPP</Filter>
+    </ClCompile>
+    <ClCompile Include="Creature.cpp">
+      <Filter>prj8\CPP</Filter>
+    </ClCompile>
+    <ClCompile Include="Field.cpp">
+      <Filter>prj8\CPP</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>prj8\CPP</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>prj8\CPP</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -117,19 +123,19 @@
       <Filter>prj7\header</Filter>
     </ClInclude>
     <ClInclude Include="Creature.h">
-      <Filter>prj8</Filter>
+      <Filter>prj8\Header</Filter>
     </ClInclude>
     <ClInclude Include="Field.h">
-      <Filter>prj8</Filter>
+      <Filter>prj8\Header</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
-      <Filter>prj8</Filter>
+      <Filter>prj8\Header</Filter>
     </ClInclude>
     <ClInclude Include="Monster.h">
-      <Filter>prj8</Filter>
+      <Filter>prj8\Header</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>prj8</Filter>
+      <Filter>prj8\Header</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
