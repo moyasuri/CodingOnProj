@@ -22,6 +22,9 @@
     <Filter Include="prj7\cpp">
       <UniqueIdentifier>{3a43ac7c-4ff9-4e2b-90ed-8579e8391924}</UniqueIdentifier>
     </Filter>
+    <Filter Include="prj8">
+      <UniqueIdentifier>{4df5b383-5295-4e55-97e3-c5c8a6f56924}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -81,6 +84,24 @@
     <ClCompile Include="Gun.cpp">
       <Filter>prj7\cpp</Filter>
     </ClCompile>
+    <ClCompile Include="CPP_Study.cpp">
+      <Filter>prj8</Filter>
+    </ClCompile>
+    <ClCompile Include="Creature.cpp">
+      <Filter>prj8</Filter>
+    </ClCompile>
+    <ClCompile Include="Field.cpp">
+      <Filter>prj8</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>prj8</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>prj8</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>prj8</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h">
@@ -94,6 +115,21 @@
     </ClInclude>
     <ClInclude Include="Weapon.h">
       <Filter>prj7\header</Filter>
+    </ClInclude>
+    <ClInclude Include="Creature.h">
+      <Filter>prj8</Filter>
+    </ClInclude>
+    <ClInclude Include="Field.h">
+      <Filter>prj8</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>prj8</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>prj8</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>prj8</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
