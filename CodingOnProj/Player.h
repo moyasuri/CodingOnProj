@@ -40,7 +40,7 @@ public:
 
 	void Stun() override
 	{
-
+		
 	}
 	void Storm() override
 	{
@@ -53,6 +53,7 @@ public:
 		std::cout << "Knight의 Immortal이 " << duration << " 턴 동안 활성화됩니다." << std::endl;
 		// 여기서 Immortal의 추가 동작을 구현할 수 있습니다.
 	}
+	void Poison(int dotDamage, int duration) {};
 
 protected:
 	int _playerType;
@@ -86,7 +87,7 @@ public:
 		_attack = 15;
 		_defence = 3;
 	}
-	virtual void Poison() {};
+	
 
 };
 

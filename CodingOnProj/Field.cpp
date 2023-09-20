@@ -47,8 +47,37 @@ void Field::StartBattle(Player* player)
 		player->PrintInfo();
 		_monster->PrintInfo();
 
-		// 플레이어->몬스터 공격
-		_monster->OnAttacked(player);
+		int cmd;
+		std::cout << "1 : 공격, 2 : 스킬 , 3 : 아이템" << std::endl;
+		std::cin >> cmd;
+
+		bool _loop = true;
+		while (_loop) {
+			switch (cmd)
+			{
+			case 1:// 플레이어->몬스터 공격
+				_monster->OnAttacked(player);
+
+				_loop = false;
+				break;
+			case 2:
+				_loop = false;
+				break;
+			case3:
+				_loop = false;
+				break;
+			default:
+				std::cout << "잘못된 입력입니다.";
+			}
+		}
+		_loop = false;
+			
+			
+
+		
+
+		
+		
 
 		if (_monster->IsDead())
 		{
