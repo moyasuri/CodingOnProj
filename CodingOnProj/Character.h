@@ -11,9 +11,9 @@ public:
 	Character(std::string str);
 	virtual ~Character();
 	void LootingWeapon(int _WeaponType);
-	void AttackPlayer(Character& _cha_att, Character& _cha_def);
+	void AttackPlayer(Character& _cha_def);
 	void PrintWeaponStatus(const std::vector<Weapon*> _Weapon);
-	void PrintPlayerStatus(const Character& _cha_att, const Character& _cha_def);
+	void PrintPlayerStatus( const Character& _cha_def);
 
 	// Getter and Setter for _hp
 	int GetHP() const;

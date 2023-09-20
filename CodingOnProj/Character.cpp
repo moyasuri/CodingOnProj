@@ -37,7 +37,7 @@ void Character::LootingWeapon(int _WeaponType)
 	
 }
 
-void Character::AttackPlayer(Character& _cha_att, Character& _cha_def)
+void Character::AttackPlayer(Character& _cha_def)
 {
 	// if(Cha)
 	
@@ -47,15 +47,15 @@ void Character::AttackPlayer(Character& _cha_att, Character& _cha_def)
 	std::cout << "무기를 루팅해주세요, 0 : GUN, 1 : SWORD " << std::endl;
 	std::cin >> temp_cmd2;
 	LootingWeapon(temp_cmd2);
-	PrintWeaponStatus(_cha_att._Weapon);
+	PrintWeaponStatus(_Weapon);
 
 	std::cout << "어떤 무기로 공격하시겠습니까?" << std::endl;
 	std::cin >> temp_cmd;
 	
-	_cha_def._hp = _cha_def._hp - _cha_att._Weapon[temp_cmd]->GetDamage();
-	_cha_att._Weapon[temp_cmd]->Attack();
+	_cha_def._hp = _cha_def._hp - _Weapon[temp_cmd]->GetDamage();
+	_Weapon[temp_cmd]->Attack();
 
-	PrintPlayerStatus(_cha_att, _cha_def);
+	PrintPlayerStatus(_cha_def);
 
 
 }
@@ -81,9 +81,9 @@ void Character::PrintWeaponStatus(const std::vector<Weapon*> _Weapon)
 	}
 }
 
-void Character::PrintPlayerStatus(const Character& _cha_att, const Character& _cha_def)
+void Character::PrintPlayerStatus(const Character& _cha_def)
 {
-	std::cout << "공격자" << _cha_att.GetName() << "의 hp : " << _cha_att.GetHP() << std::endl;
+	std::cout << "공격자" << GetName() << "의 hp : " << GetHP() << std::endl;
 	std::cout << "방어자" << _cha_def.GetName() << "의 hp : " << _cha_def.GetHP() << std::endl;
 	
 }

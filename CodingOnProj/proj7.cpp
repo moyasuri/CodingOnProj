@@ -38,7 +38,7 @@ int main()
 		cout << "공격자, 방어자를 순서대로 입력해주세요 ex) 3 4  : " << endl;
 		cin >> att >> def;
 
-		myVec[att]->AttackPlayer(*myVec[att], *myVec[def]);
+		myVec[att]->AttackPlayer(*myVec[def]);
 		removePlayer(myVec);
 
 	}

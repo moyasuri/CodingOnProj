@@ -4,7 +4,7 @@
 
 Gun::Gun()
 {
-	SetDamage(100);
+	SetDamage(10);
 	SetAttacksLeft(1);
 	SetWeaponType(GUN);
 }
