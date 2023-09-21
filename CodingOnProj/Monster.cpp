@@ -10,7 +10,6 @@ void Monster::PrintInfo()
 	case MT_SLIME:
 		_name = "slime";
 		break;
-
 	case MT_ORC:
 		_name = "orc";
 		break;

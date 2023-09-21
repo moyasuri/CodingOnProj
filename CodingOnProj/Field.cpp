@@ -24,7 +24,26 @@ void Field::Update(Player* player)
 
 void Field::CreateMonster()
 {
-	int randValue = 1 + rand() % 4;
+	int monsterSeed = 1 + rand() % 100;
+	int randValue;
+	if (monsterSeed <5)
+	{
+		randValue = MT_DRAGON;
+	}
+	else if (monsterSeed < 30)
+	{
+		randValue = MT_SKELETON;
+	}
+	else if (monsterSeed < 60)
+	{
+		randValue = MT_ORC;
+	}
+	else
+	{
+		randValue = MT_SLIME;
+	}
+	
+	
 
 	switch (randValue)
 	{
@@ -93,9 +112,9 @@ void Field::StartBattle(Player* player)
 		if (_monster->IsDead())
 		{
 			_monster->PrintInfo();
+			player->DropItem();
 			delete _monster;
 			_monster = nullptr;
-			std::cout << "break 호출" << std::endl;
 			break;
 		}
 		

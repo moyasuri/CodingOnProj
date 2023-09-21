@@ -72,35 +72,69 @@ void Player::UsingItem() // 아이템)
 	{
 	case IT_HP:
 		std::cout << "hp가 회복되었습니다." << std::endl;
-		if (_cmd == 1)
-		{
 			--_item[0].second;
 			_hp += 50; // hp 회복량
-		}
+			if (_hp > _maxhp)
+				_hp = _maxhp;
 		break;
 
 	case IT_MP:
-
 		std::cout << "mp가 회복되었습니다." << std::endl;
-		if (_cmd == 2)
-		{
 			--_item[1].second;
 			_mp += 30; // mp 회복량
-			
-		}
+			if (_mp > _maxmp)
+				_mp = _maxmp;
 		break;
 
 	case IT_ANTIDOTE:
 		std::cout << "모든 상태이상이 풀렸습니다." << std::endl;
-		if (_cmd == 3)
-		{
 			--_item[2].second;
 			_skillType &= 0b00000000;
-		}
 
 		break;
-
-
-
 	}
 }
+
+void Player::DropItem() {
+
+	// 요주의 인물
+	int dropChance = rand() % 10 + 1;
+	if (dropChance > 2)
+	{
+
+
+		int ItemNum_Rand = rand() % 3 + 1;
+		vector<int>ItemsDrop;
+		for (int i = 0; i < ItemNum_Rand;i++)
+		{
+			ItemsDrop.push_back(rand() % 3 + 1);
+
+		}
+
+		for (int itemType : ItemsDrop)
+		{
+			switch (itemType)
+			{
+			case IT_HP:
+				std::cout << "hp포션을 얻었습니다" << std::endl;
+				++_item[0].second;
+				break;
+
+			case IT_MP:
+
+				std::cout << "mp포션을 얻었습니다." << std::endl;
+				++_item[1].second;
+
+				break;
+
+			case IT_ANTIDOTE:
+				std::cout << "만병통치약을 얻었습니다." << std::endl;
+				++_item[2].second;
+				break;
+			}
+		}
+	}
+
+
+}
+

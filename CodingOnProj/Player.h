@@ -40,6 +40,7 @@ public:
 	virtual bool NonItemCheck();
 	virtual void UsingItem();
 	virtual void PrintItemInfo();
+	virtual void DropItem();
 	
 
 
@@ -57,7 +58,9 @@ public:
 	{
 		std::cout << "기사가 생성되었습니다." << std::endl;
 		_hp = 150;
-		_mp = 30;
+		_maxhp = 150;
+		_mp = 50;
+		_maxmp = 50;
 		_attack = 10;
 		_defence = 5;
 
@@ -74,7 +77,9 @@ public:
 	{
 		std::cout << "궁수가 생성되었습니다." << std::endl;
 		_hp = 80;
+		_maxhp = 80;
 		_mp = 50;
+		_maxmp = 50;
 		_attack = 15;
 		_defence = 3;
 	}
@@ -89,7 +94,9 @@ public:
 	{
 		std::cout << "마법사가 생성되었습니다." << std::endl;
 		_hp = 50;
+		_maxhp = 50;
 		_mp = 100;
+		_maxmp = 100;
 		_attack = 25;
 		_defence = 0;
 
