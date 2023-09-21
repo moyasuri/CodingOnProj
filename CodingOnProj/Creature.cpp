@@ -5,7 +5,17 @@
 
 void Creature::OnAttacked(Creature* attacker)
 {
-	int damage = attacker->_attack - _defence;
+	int damage;
+
+	if (attacker->andSkillType(ST_HELLFIRE))
+	{
+		damage= attacker->_attack* attacker->_hellfireAttackWeight - _defence;
+	}
+	else
+	{
+		damage = attacker->_attack - _defence;
+	}
+
 	if (damage <= 0)
 		damage = 1;
 
@@ -15,70 +25,116 @@ void Creature::OnAttacked(Creature* attacker)
 }
 
 void Creature::CheckStatus(){
-	bool isDebuff = 0b11111111 & _skillType;
+
+	bool isDebuff = 0b11111111 & _skillType; // 상태이상이 걸려있는가?
 	if (isDebuff)
 	{
 		if (_skillType & ST_STUN)
-		{
-			_stunSW = true;
-			if (_stunDuration == 0)
+		{			
+			if (!_stunDuration)
 			{
-				_skillType &= (~ST_STUN);
-				_stunSW = false;
+				std::cout << "스턴이 해제되었습니다." << std::endl;
+				SetandSkillType(~ST_STUN);
 			}
-			--_stunDuration;
 		}
 
 		if (_skillType & ST_POISON)
 		{
-			_hp -= 20;
-			if (_poisonDuration == 0)
-			{
-				_skillType &= (~ST_POISON);
-			}
 			--_poisonDuration;
-		}
-
-		if (_skillType & ST_IMMORTAL) // 
-		{
-			
-			if (_immortalDuration == 0)
+			if (!_poisonDuration)
 			{
-				_skillType &= (~ST_IMMORTAL);
+				std::cout << "맹독이 해독되었습니다." << std::endl;
+				SetandSkillType(~ST_POISON);
 			}
-			--_immortalDuration;
-
+			else
+			{
+				_hp -= 20;
+				std::cout << "앞으로 남은 맹독 턴수는 " << _poisonDuration << " 입니다." << std::endl;
+			}
 		}
+
+
 		if (_skillType & ST_SILENCE)
 		{
-			if(_silenceDuration==0)
-			{
-				_skillType &= (~ST_SILENCE);
-			}
 			--_silenceDuration;
+
+			if(!_silenceDuration)
+			{
+				std::cout << "침묵이 풀렸습니다." << std::endl;
+				SetandSkillType(~ST_SILENCE);
+			}
+			else
+			{
+				std::cout << "앞으로 남은 침묵 턴수는 " << _silenceDuration << " 입니다." << std::endl;
+				
+			}
 		}
 		if (_skillType & ST_PORTIONSILENCE)
 		{
-			if (!_silenceportionDuration)
+			--_portionsilenceDuration;
+			if (!_portionsilenceDuration)
 			{
-				_skillType &= (~ST_PORTIONSILENCE);
+				std::cout << "포션침묵이 풀렸습니다." << std::endl;
+				SetandSkillType(~ST_PORTIONSILENCE);
 			}
-			--_silenceportionDuration;
-		}
-
-
-		if (_skillType & ST_HELLFIRE) // 요주의 인물
-		{
-
+			else
+			{
+				std::cout << "앞으로 남은 포션침묵 턴수는 " << _portionsilenceDuration << " 입니다." << std::endl;
+				
+			}
 		}
 
 		if (_skillType & ST_UNDEAD)
 		{
+			--_undeadDuration;
 			if (!_undeadDuration)
 			{
-				_skillType &= (~ST_UNDEAD);
+				std::cout << "포션침묵이 풀렸습니다." << std::endl;
+				SetandSkillType(~ST_UNDEAD);
 			}
-			--_undeadDuration;
+			else
+			{
+				std::cout << "앞으로 남은 포션침묵 턴수는 " << _undeadDuration << " 입니다." << std::endl;
+				
+			}
+		}
+
+		if (_skillType & ST_IMMORTAL) // 불굴의 의지
+		{
+			--_immortalDuration;
+			if (_hp <= 0)
+			{
+				_hp = 1;
+			}
+			
+			if (!_immortalDuration)
+			{
+				std::cout << "불굴의 의지 지속시간이 끝났습니다." << std::endl;
+				SetandSkillType(~ST_IMMORTAL);
+			}
+			else
+			{
+				std::cout << "앞으로 남은 불굴의 의지 턴수는 " << _immortalDuration << " 입니다." << std::endl;
+			}
+		}
+		
+
+		if (_skillType & ST_HELLFIRE) // 헬파이어가 임모탈보다 뒤로와야됌
+		{
+			--_hellfireLimitDuration;
+			if (!_hellfireLimitDuration)
+			{
+				std::cout << "숨이 끊어졌습니다." << std::endl;
+				_hp = 0;
+			}
+			else
+			{
+				_hp -= _hellfireHpDown;
+				_hellfireAttackWeight *= 2;
+				_hellfireHpDown += 20;
+				std::cout << "지옥의 업화 남은 턴수는 " << _hellfireLimitDuration << " 입니다." << std::endl;
+			}
+
 		}
 
 	}
@@ -95,7 +151,9 @@ void Creature::OnAttackedSkill(Creature* attacker)
 		switch (attacker->_playerType)
 		{
 		case PT_Knight:
+			std::cout << "------------------------------------------------" << std::endl;
 			std::cout << "(1) 최후의 의지 : 3턴동안 피가 1 밑으로 내려가지 않습니다." << std::endl;
+			std::cout << "------------------------------------------------" << std::endl;
 			std::cin >> _cmd;
 			if (_cmd == 1)
 			{
@@ -103,8 +161,16 @@ void Creature::OnAttackedSkill(Creature* attacker)
 				{
 					attacker->SetOnHit(true);
 					attacker->_mp -= 30; // 최의 mp
-					attacker->_skillType = attacker->_skillType | ST_IMMORTAL;
-					_immortalDuration = 3;
+					attacker->SetorSkillType(ST_IMMORTAL);
+					if (attacker->andSkillType(ST_HELLFIRE))
+					{
+						attacker->_immortalDuration = 6;
+					}
+					else
+					{
+						attacker->_immortalDuration = 3;
+					}
+					
 				}
 				else
 				{
@@ -113,10 +179,16 @@ void Creature::OnAttackedSkill(Creature* attacker)
 				}
 				
 			}
+			else {
+				std::cout << "잘못된 입력입니다." << std::endl;
+				attacker->SetOnHit(false);
+			}
 
 			break;
 		case PT_Archer:
+			std::cout << "------------------------------------------------" << std::endl;
 			std::cout << "(1) 맹독 : 5턴동안 지속적인 독 데미지를 부여합니다. " << std::endl;
+			std::cout << "------------------------------------------------" << std::endl;
 			std::cin >> _cmd;
 			if (_cmd == 1)
 			{
@@ -124,8 +196,16 @@ void Creature::OnAttackedSkill(Creature* attacker)
 				{
 					attacker->SetOnHit(true);
 					attacker->_mp -= 30; // 맹독 mp
-					_skillType = _skillType | ST_POISON;
-					_poisonDuration = 5;
+					SetorSkillType(ST_POISON);
+					if (attacker->andSkillType(ST_HELLFIRE))
+					{
+						attacker->_poisonDuration = 10;
+					}
+					else
+					{
+						attacker->_poisonDuration = 5;
+					}
+					
 				}
 				else
 				{
@@ -134,11 +214,17 @@ void Creature::OnAttackedSkill(Creature* attacker)
 				}
 
 			}
+			else {
+				std::cout << "잘못된 입력입니다." << std::endl;
+				attacker->SetOnHit(false);
+			}
 
 			break;
 		case PT_Mage:
+			std::cout << "------------------------------------------------" << std::endl;
 			std::cout << "(1) 스턴 : 적이 3턴동안 아무행동도 할 수 없습니다." << std::endl;
 			std::cout << "(2) 스톰 : 폭풍을 소환하여 큰 데미지를 부여합니다" << std::endl;
+			std::cout << "------------------------------------------------" << std::endl;
 			std::cin >> _cmd;
 			if (_cmd == 1)
 			{
@@ -146,8 +232,16 @@ void Creature::OnAttackedSkill(Creature* attacker)
 				{
 					attacker->SetOnHit(true);
 					attacker->_mp -= 50; // 스턴 mp
-					_skillType = _skillType | ST_STUN;
-					_stunDuration = 4;
+					SetorSkillType(ST_STUN);
+					if (attacker->andSkillType(ST_HELLFIRE))
+					{
+						attacker->_stunDuration = 5;
+					}
+					else
+					{
+						attacker->_stunDuration = 3;
+					}
+					
 				}
 				else
 				{
@@ -162,7 +256,16 @@ void Creature::OnAttackedSkill(Creature* attacker)
 				{
 					attacker->SetOnHit(true);
 					attacker->_mp -= 50; // 폭풍 소환 mp
-					_hp -= 100;
+					if (attacker->andSkillType(ST_HELLFIRE))
+					{
+						_hp -= 100*attacker->_hellfireAttackWeight;
+					}
+					else
+					{
+						_hp -= 100;
+					}
+
+					
 				}
 				else
 				{
@@ -171,96 +274,108 @@ void Creature::OnAttackedSkill(Creature* attacker)
 				}
 
 			}
+			else {
+				std::cout << "잘못된 입력입니다." << std::endl;
+				attacker->SetOnHit(false);
+			}
 			break;
 		}
 	}
 	else // 몬스터 타입의 스킬
 	{
+		// 어떤 스킬을 사용할지에 대한 시드 설정
 		double randomValue = (static_cast<double>(std::rand()) / RAND_MAX);
-		switch (attacker->_monsterType)
+
+
+		switch (attacker->GetMonsterType())
 		{
 		case MT_SLIME:
-			std::cout << "맹독 : 5턴동안 지속적인 독 데미지를 부여합니다. " << std::endl;
-				_skillType |= ST_POISON;
-				_immortalDuration = 5;
+			std::cout << "맹독 : 몬스터가 5턴동안 지속적인 독 데미지를 부여합니다. " << std::endl;
+				SetorSkillType(ST_POISON);
+				_poisonDuration = 5;
 			break;
 		case MT_ORC:
 			if (randomValue < 0.8) 
 			{
-				std::cout << "맹독 : 5턴동안 지속적인 독 데미지를 부여합니다. " << std::endl;
-				_skillType |= ST_POISON;
+				std::cout << "맹독 : 몬스터가 5턴동안 지속적인 독 데미지를 부여합니다. " << std::endl;
+				SetorSkillType(ST_POISON);
 				_poisonDuration = 5;
 			}
 			else 
 			{
-				std::cout << "침묵 : 2턴동안 마법을 쓸 수 없습니다. " << std::endl;
-				_skillType |= ST_SILENCE;
+				std::cout << "침묵 : 플레이어가 2턴동안 마법을 쓸 수 없습니다. " << std::endl;
+				SetorSkillType(ST_SILENCE);
 				_silenceDuration = 2;
 			}
 			break;
 		case MT_SKELETON:
 			if (randomValue < 0.5)
 			{
-				std::cout << "맹독 : 5턴동안 지속적인 독 데미지를 부여합니다. " << std::endl;
-				_skillType |= ST_POISON;
+				std::cout << "맹독 : 몬스터가 5턴동안 지속적인 독 데미지를 부여합니다. " << std::endl;
+				SetorSkillType(ST_POISON);
 				_poisonDuration = 5;
 			}
 			else if (randomValue < 0.8)
 			{
-				std::cout << "침묵 : 2턴동안 마법을 쓸 수 없습니다. " << std::endl;
-				_skillType |= ST_SILENCE;
+				std::cout << "침묵 : 플레이어가 2턴동안 마법을 쓸 수 없습니다. " << std::endl;
+				SetorSkillType(ST_SILENCE);
 				_silenceDuration = 2;
 			}
 			else
 			{
-				std::cout << "언데드 : 2턴안에 포션을 먹을시 회복량의 반만큼 체력이 깎입니다. " << std::endl;
-				_skillType |= ST_UNDEAD;
+				std::cout << "언데드 : 플레이어가 2턴안에 포션을 먹을시 회복량의 반만큼 체력이 깎입니다. " << std::endl;
+				SetorSkillType(ST_UNDEAD);
 				_undeadDuration = 2;
 			}
 			break;
 		case MT_DRAGON:
-			if (randomValue < 0.2)
+			//if (randomValue < 0.2)
+			if (0)
 			{
-				std::cout << "맹독 : 5턴동안 지속적인 독 데미지를 부여합니다. " << std::endl;
-				_skillType |= ST_POISON;
+				std::cout << "맹독 : 몬스터가 5턴동안 지속적인 독 데미지를 부여합니다. " << std::endl;
+				SetorSkillType(ST_POISON);
 				_poisonDuration = 5;
 			}
-			else if (randomValue < 0.4)
+			//else if (randomValue < 0.4)
+			else if (0)
 			{
-				std::cout << "침묵 : 2턴동안 마법을 쓸 수 없습니다. " << std::endl;
-				_skillType |= ST_SILENCE;
-				_silenceDuration = 2;
+				std::cout << "침묵 : 플레이어가 2턴동안 마법을 쓸 수 없습니다. " << std::endl;
+				SetorSkillType(ST_SILENCE);
+				_silenceDuration = 3;
 			}
-			else if (randomValue < 0.6)
+			//else if (randomValue < 0.6)
+			else if (0)
 			{
-				std::cout << "포션침묵 : 2턴동안 포션을 사용 할 수 없습니다." << std::endl;
-				_skillType |= ST_PORTIONSILENCE;
-				_portionsilenceDuration = 2;
+				std::cout << "포션침묵 : 플레이어가 2턴동안 포션을 사용 할 수 없습니다." << std::endl;
+				SetorSkillType(ST_PORTIONSILENCE);
+				_portionsilenceDuration = 3;
 			}
-			else if (randomValue < 0.9)
+			//else if (randomValue < 0.8)
+			else if (1)
 			{
-				std::cout << "침묵 : 2턴동안 마법을 쓸 수 없습니다. " << std::endl;
-				_skillType |= ST_SILENCE;
-				_silenceDuration = 2;
+				std::cout << "언데드 : 플레이어가 2턴안에 포션을 먹을시 회복량의 반만큼 체력이 깎입니다. " << std::endl;
+				SetorSkillType(ST_UNDEAD);
+				_undeadDuration = 3;
 			}
 			else
 			{
-				std::cout << "언데드 : 2턴안에 포션을 먹을시 회복량의 반만큼 체력이 깎입니다. " << std::endl;
-				_skillType |= ST_UNDEAD;
-				_silenceDuration = 2;
+				std::cout << "스턴 : 플레이어가 2턴동안 아무런 행동도 할 수 없습니다. " << std::endl;
+				SetorSkillType(ST_STUN); 
+				_stunDuration = 2;
 			}
+
+			// hellfire
+			if (!andSkillType(ST_HELLFIRE))
+			{
+				SetorSkillType(ST_HELLFIRE);
+				std::cout << "지옥의 업화 디버프가 발생합니다!!!!!!!! " << std::endl;
+				_hellfireLimitDuration = 15;
+			}
+
 
 			break;
 		}
 
 
-
 	}
 }
-
-
-	
-
-
-
-

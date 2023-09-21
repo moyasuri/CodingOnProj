@@ -20,7 +20,7 @@ void Monster::PrintInfo()
 		_name = "dragon";
 		break;
 	}
-	cout << "---------------------" << endl;
+	std::cout << "------------------------------------------------" << std::endl;
 	cout << "[몬스터 정보] : ["<< _name << "] // HP: " << _hp << " ATT: " << _attack << " DEF: " << _defence << endl;
-	cout << "---------------------" << endl;
+	std::cout << "------------------------------------------------" << std::endl;
 }

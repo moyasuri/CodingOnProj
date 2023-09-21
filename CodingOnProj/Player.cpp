@@ -20,17 +20,17 @@ void Player::PrintInfo()
 		break;
 
 	}
-	cout << "---------------------" << endl;
-	cout << "[플레이어 정보] : [" << _name << "] // HP: " << _hp << " MP: " << _mp << " ATT: " << _attack << " DEF: " << _defence << " exp: " << _exp << " 필요경험치: " << _neededExp << endl;
-	cout << "---------------------" << endl;
+	std::cout << "------------------------------------------------" << std::endl;
+	cout << "[플레이어 정보] : [" << _name << "] // HP: " << _hp << " MP: " << _mp << " ATT: " << _attack << " DEF: " << _defence << " Level: " << _level << " exp: " << _exp << " 필요경험치: " << _neededExp << endl;
+	std::cout << "------------------------------------------------" << std::endl;
 }
 
 void Player::PrintItemInfo()
 {
 	for (const auto& item : _item) {
-		cout << "---------------------" << endl;
-		cout << "[아이템 이름] " << item.first << " 남아있는 개수 " << item.second << endl;
-		cout << "---------------------" << endl;
+		std::cout << "------------------------------------------------" << std::endl;
+		cout << "[아이템 이름] " << item.first << "| 남아있는 개수   [" << item.second <<"]개"<< endl;
+		std::cout << "------------------------------------------------" << std::endl;
 	}
 }
 
@@ -57,23 +57,24 @@ void Player::UsingItem() // 아이템)
 {
 
 	PrintItemInfo();
-
+	std::cout << "------------------------------------------------" << std::endl;
 	std::cout << "사용할 아이템을 선택해주세요 (1) : hp포션, (2) : mp 포션, (3) : 만병통치약 : ";
-
+	
 	
 	bool _loop = true;
 	int _cmd;
+
 	while (_loop) {
 		cin >> _cmd;
 		switch (_cmd)
 		{
 			case IT_HP:
-				if (_item[0].second > 0) 
+				if (_item[0].second > 0) // hp 포션 존재?
 				{
 					std::cout << "hp가 회복되었습니다." << std::endl;
-					--_item[0].second;
+					--_item[0].second; // 포션개수 차감
 					_hp += 100; // hp 회복량
-					if (_hp > _maxhp)
+					if (_hp > _maxhp) // maxhp 보다 높을 수 없음
 						_hp = _maxhp;
 					_loop = false;
 				}
@@ -105,9 +106,20 @@ void Player::UsingItem() // 아이템)
 			case IT_ANTIDOTE:
 				if (_item[2].second > 0)
 				{
+
 					std::cout << "모든 상태이상이 풀렸습니다." << std::endl;
 					--_item[2].second;
-					_skillType &= 0b00000000;
+					if (andSkillType(ST_HELLFIRE)) {
+						_skillType &= 0b00000000; // 상태이상 제거
+						SetandSkillType(ST_HELLFIRE);
+						_hellfireAttackWeight = 2;
+						_hellfireHpDown = 20;
+					}
+					else
+					{
+						_skillType &= 0b00000000; // 상태이상 제거
+					}
+					
 					_loop = false;
 				}
 				else
@@ -116,6 +128,9 @@ void Player::UsingItem() // 아이템)
 					std::cout << "다시 입력해주세요." << std::endl;
 				}
 			break;
+			default : 
+				std::cout << "잘못 입력하셨습니다, 다시입력해주세요." << std::endl;
+				break;
 		}
 	}
 }
@@ -134,7 +149,7 @@ void Player::DropItem() {
 		{
 			ItemsDrop.push_back(rand() % 3 + 1);
 		}
-
+		std::cout << "------------------------------------------------" << std::endl;
 		for (int itemType : ItemsDrop)
 		{
 			switch (itemType)
@@ -155,6 +170,7 @@ void Player::DropItem() {
 				break;
 			}
 		}
+		std::cout << "------------------------------------------------" << std::endl;
 	}
 
 
@@ -181,8 +197,8 @@ void Player::GetExp(int monsterType)
 }
 void Player::LevelUpChk()
 {
-	while (_exp >= _neededExp)
-	{
+	while (_exp >= _neededExp) // 필요 경험치 이상으로 경험치를 얻을시,
+	{ 
 			++_level;
 			_exp -=_neededExp;
 			_neededExp += 50;

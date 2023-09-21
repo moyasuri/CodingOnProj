@@ -19,8 +19,8 @@ public:
 	}
 
 	virtual void PrintInfo();
-	
-	int GetMonsterType() const {
+	int GetMonsterType()
+	{
 		return _monsterType;
 	}
 
