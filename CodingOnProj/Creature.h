@@ -32,7 +32,9 @@ public:
 	Creature(int creatureType)
 		: _creatureType(creatureType), _playerType(0),_hp(0), _mp(0), _attack(0), _defence(0), _stunDuration(0), _hellfireLimitDuration(0), _hellfireSW(false)
 	{
-
+		_level = 1;
+		_exp = 0;
+		_neededExp = 100;
 	}
 	virtual ~Creature()
 	{
@@ -58,7 +60,7 @@ public:
 
 	
 	
-		bool GetStunSW() const {
+	bool GetStunSW() const {
 		return _stunSW;
 	}
 
@@ -91,7 +93,10 @@ protected:
 	int _attack;
 	int _defence;
 	int _playerType;
-
+	int _level;
+	int _exp;
+	int _neededExp;
+	int _monsterType;
 
 	int _stunDuration; // stun 시간
 	int _stunDuration_z;
@@ -109,7 +114,7 @@ protected:
 	bool _immortalSW;
 	int _immortalDuration;
 	int _immortalDuration_z;
-	uint8_t _skillType; // 0으로 초기화 이거 소개하자
+	uint8_t _skillType = 0; // 0으로 초기화 이거 소개하자
 
 	bool _poisonSW;
 	int _poisonDuration;

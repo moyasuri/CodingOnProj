@@ -19,10 +19,20 @@ public:
 	}
 
 	virtual void PrintInfo();
+	
+	int GetMonsterType() const {
+		return _monsterType;
+	}
+
+	double GetAttackProbability() const {
+		return _attackProbability;
+	}
+
 
 
 protected:
 	int _monsterType;
+	double _attackProbability = 0.8;
 };
 
 class Slime : public Monster

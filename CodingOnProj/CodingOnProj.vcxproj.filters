@@ -33,9 +33,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="proj1.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -90,7 +87,7 @@
     <ClCompile Include="Gun.cpp">
       <Filter>prj7\cpp</Filter>
     </ClCompile>
-    <ClCompile Include="Prj8.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>prj8\CPP</Filter>
     </ClCompile>
     <ClCompile Include="Creature.cpp">

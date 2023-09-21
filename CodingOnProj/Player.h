@@ -36,11 +36,14 @@ public:
 	{
 
 	}
+
 	virtual void PrintInfo();
 	virtual bool NonItemCheck();
 	virtual void UsingItem();
 	virtual void PrintItemInfo();
 	virtual void DropItem();
+	virtual void GetExp(int monsterType);
+	virtual void LevelUpChk();
 	
 
 
@@ -95,7 +98,7 @@ public:
 		std::cout << "마법사가 생성되었습니다." << std::endl;
 		_hp = 50;
 		_maxhp = 50;
-		_mp = 100;
+		_mp = 200;
 		_maxmp = 100;
 		_attack = 25;
 		_defence = 0;

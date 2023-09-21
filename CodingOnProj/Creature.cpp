@@ -1,11 +1,12 @@
 #include "Creature.h"
 #include "Player.h"
+#include "Monster.h"
 
 
 void Creature::OnAttacked(Creature* attacker)
 {
 	int damage = attacker->_attack - _defence;
-	if (damage < 0)
+	if (damage <= 0)
 		damage = 1;
 
 	_hp -= damage;
@@ -124,7 +125,7 @@ void Creature::OnAttackedSkill(Creature* attacker)
 					attacker->SetOnHit(true);
 					attacker->_mp -= 30; // 맹독 mp
 					_skillType = _skillType | ST_POISON;
-					_poisonDuration = 3;
+					_poisonDuration = 5;
 				}
 				else
 				{
@@ -146,7 +147,7 @@ void Creature::OnAttackedSkill(Creature* attacker)
 					attacker->SetOnHit(true);
 					attacker->_mp -= 50; // 스턴 mp
 					_skillType = _skillType | ST_STUN;
-					_stunDuration = 3;
+					_stunDuration = 4;
 				}
 				else
 				{
@@ -172,11 +173,86 @@ void Creature::OnAttackedSkill(Creature* attacker)
 			}
 			break;
 		}
-
-
 	}
-	else
+	else // 몬스터 타입의 스킬
 	{
+		double randomValue = (static_cast<double>(std::rand()) / RAND_MAX);
+		switch (attacker->_monsterType)
+		{
+		case MT_SLIME:
+			std::cout << "맹독 : 5턴동안 지속적인 독 데미지를 부여합니다. " << std::endl;
+				_skillType |= ST_POISON;
+				_immortalDuration = 5;
+			break;
+		case MT_ORC:
+			if (randomValue < 0.8) 
+			{
+				std::cout << "맹독 : 5턴동안 지속적인 독 데미지를 부여합니다. " << std::endl;
+				_skillType |= ST_POISON;
+				_poisonDuration = 5;
+			}
+			else 
+			{
+				std::cout << "침묵 : 2턴동안 마법을 쓸 수 없습니다. " << std::endl;
+				_skillType |= ST_SILENCE;
+				_silenceDuration = 2;
+			}
+			break;
+		case MT_SKELETON:
+			if (randomValue < 0.5)
+			{
+				std::cout << "맹독 : 5턴동안 지속적인 독 데미지를 부여합니다. " << std::endl;
+				_skillType |= ST_POISON;
+				_poisonDuration = 5;
+			}
+			else if (randomValue < 0.8)
+			{
+				std::cout << "침묵 : 2턴동안 마법을 쓸 수 없습니다. " << std::endl;
+				_skillType |= ST_SILENCE;
+				_silenceDuration = 2;
+			}
+			else
+			{
+				std::cout << "언데드 : 2턴안에 포션을 먹을시 회복량의 반만큼 체력이 깎입니다. " << std::endl;
+				_skillType |= ST_UNDEAD;
+				_undeadDuration = 2;
+			}
+			break;
+		case MT_DRAGON:
+			if (randomValue < 0.2)
+			{
+				std::cout << "맹독 : 5턴동안 지속적인 독 데미지를 부여합니다. " << std::endl;
+				_skillType |= ST_POISON;
+				_poisonDuration = 5;
+			}
+			else if (randomValue < 0.4)
+			{
+				std::cout << "침묵 : 2턴동안 마법을 쓸 수 없습니다. " << std::endl;
+				_skillType |= ST_SILENCE;
+				_silenceDuration = 2;
+			}
+			else if (randomValue < 0.6)
+			{
+				std::cout << "포션침묵 : 2턴동안 포션을 사용 할 수 없습니다." << std::endl;
+				_skillType |= ST_PORTIONSILENCE;
+				_portionsilenceDuration = 2;
+			}
+			else if (randomValue < 0.9)
+			{
+				std::cout << "침묵 : 2턴동안 마법을 쓸 수 없습니다. " << std::endl;
+				_skillType |= ST_SILENCE;
+				_silenceDuration = 2;
+			}
+			else
+			{
+				std::cout << "언데드 : 2턴안에 포션을 먹을시 회복량의 반만큼 체력이 깎입니다. " << std::endl;
+				_skillType |= ST_UNDEAD;
+				_silenceDuration = 2;
+			}
+
+			break;
+		}
+
 
 
 	}
