@@ -19,30 +19,7 @@ public:
 	}
 
 	virtual void PrintInfo();
-	void Stun() override
-	{
 
-	}
-	
-	void Poison() override
-	{
-
-	}
-	
-	void Silence() override
-	{
-
-	}
-
-	void PortionSilence() override
-	{
-
-	}
-	
-	void Hellfire() override
-	{
-
-	}
 
 protected:
 	int _monsterType;

@@ -20,8 +20,9 @@ enum PortionType
 class Player : public Creature
 {
 public:
-	Player(int playerType) : Creature(CT_PLAYER), _playerType(playerType)
+	Player(int playerType) : Creature(CT_PLAYER)
 	{
+		_playerType = playerType;
 		_item.push_back(std::make_pair("hp", 0));
 		_item.push_back(std::make_pair("mp", 0));
 		_item.push_back(std::make_pair("Antidote", 0));
@@ -35,29 +36,17 @@ public:
 	{
 
 	}
-
 	virtual void PrintInfo();
+	virtual bool NonItemCheck();
+	virtual void UsingItem();
+	virtual void PrintItemInfo();
+	
 
-	void Stun() override
-	{
-		
-	}
-	void Storm() override
-	{
 
-	}
-
-	// Immortal 함수를 오버라이드
-	void Immortal(int duration) override {
-		// Knight 클래스에서 Immortal 함수의 동작 재정의
-		std::cout << "Knight의 Immortal이 " << duration << " 턴 동안 활성화됩니다." << std::endl;
-		// 여기서 Immortal의 추가 동작을 구현할 수 있습니다.
-	}
-	void Poison(int dotDamage, int duration) {};
 
 protected:
-	int _playerType;
 	std::vector<std::pair<std::string, int>> _item; // 아이템
+	
 	
 };
 
@@ -66,6 +55,7 @@ class Knight : public Player
 public:
 	Knight() : Player(PT_Knight)
 	{
+		std::cout << "기사가 생성되었습니다." << std::endl;
 		_hp = 150;
 		_mp = 30;
 		_attack = 10;
@@ -82,6 +72,7 @@ class Archer : public Player
 public:
 	Archer() : Player(PT_Archer)
 	{
+		std::cout << "궁수가 생성되었습니다." << std::endl;
 		_hp = 80;
 		_mp = 50;
 		_attack = 15;
@@ -96,6 +87,7 @@ class Mage : public Player
 public:
 	Mage() : Player(PT_Mage)
 	{
+		std::cout << "마법사가 생성되었습니다." << std::endl;
 		_hp = 50;
 		_mp = 100;
 		_attack = 25;
