@@ -25,25 +25,23 @@ void Field::Update(Player* player)
 
 void Field::CreateMonster()
 {
-	int monsterSeed = 1 + rand() % 100;
 	int randValue;
-
-	//if (monsterSeed <5)
-	if (1)
+	double monsterSeed = (static_cast<double>(std::rand()) / RAND_MAX);
+	if (monsterSeed < 0.1)
 	{
 		randValue = MT_DRAGON;
 		std::cout << "------------------------------------------------" << std::endl;
 		std::cout << "짱쌘 투명드래곤이 등장합니다. " << std::endl;
 		std::cout << "------------------------------------------------" << std::endl;
 	}
-	else if (monsterSeed < 30)
+	else if (monsterSeed < 0.3)
 	{
 		randValue = MT_SKELETON;
 		std::cout << "------------------------------------------------" << std::endl;
 		std::cout << "해골이 등장합니다. " << std::endl;
 		std::cout << "------------------------------------------------" << std::endl;
 	}
-	else if (monsterSeed < 60)
+	else if (monsterSeed < 0.6)
 	{
 		randValue = MT_ORC;
 		std::cout << "------------------------------------------------" << std::endl;
@@ -104,13 +102,14 @@ void Field::StartBattle(Player* player)
 				switch (cmd)
 				{
 				case 1:// 플레이어->몬스터 공격
+					std::cout << "기본공격을 가합니다." << std::endl;
 					_monster->OnAttacked(player);
 					_loop = false;
 					break;
 				case 2: // 스킬사용 
-					if (player->andSkillType(ST_PORTIONSILENCE))
+					if (player->andSkillType(ST_SILENCE))
 					{
-						std::cout << "포션침묵에 걸려있습니다." << std::endl;
+						std::cout << "침묵에 걸려있습니다." << std::endl;
 					}
 					else
 					{
@@ -155,7 +154,7 @@ void Field::StartBattle(Player* player)
 
 			// 디버프 초기화
 			std::cout << "모든 상태이상이 해제되었습니다." << std::endl;
-			player->SetandSkillType(0b00000000);
+			player->SetandSkillType(0);
 			break;
 		}
 		
@@ -166,12 +165,17 @@ void Field::StartBattle(Player* player)
 		// 0.5초 대기
 		Sleep(500); 
 
+
 		if (_monster->andSkillType(ST_STUN)) // 몬스터가 스턴상태인가?
 		{
+			_monster->SetStunDuration(_monster->GetStunDuration() - 1);
 			std::cout << "몬스터 현재 스턴 상태입니다. 앞으로 " << _monster->GetStunDuration() << "턴 동안 아무행동도 취할 수 없습니다." << std::endl;
 		}
 		else
 		{
+			std::cout << "------------------------------------------------" << std::endl;
+			std::cout << "몬스터의 턴 입니다." << std::endl;
+			std::cout << "------------------------------------------------" << std::endl;
 			// 몬스터->플레이어 공격
 
 			double randomValue = (static_cast<double>(std::rand()) / RAND_MAX);

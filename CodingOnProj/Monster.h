@@ -76,7 +76,7 @@ class Dragon : public Monster
 public:
 	Dragon() : Monster(MT_DRAGON)
 	{
-		_hp = 1000;
+		_hp = 5000;
 		_attack = 30;
 		_defence = 10;
 			

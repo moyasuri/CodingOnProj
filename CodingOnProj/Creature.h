@@ -30,11 +30,28 @@ class Creature
 {
 public:
 	Creature(int creatureType)
-		: _creatureType(creatureType), _playerType(0),_hp(0), _mp(0), _attack(0), _defence(0), _stunDuration(0), _hellfireLimitDuration(0)
+		: _creatureType(creatureType), _playerType(0),_hp(0), _mp(0)
 	{
+		_maxhp = 0;
+		_maxmp = 0;
+		_attack = 0;
+		_defence = 0;
 		_level = 1;
 		_exp = 0;
 		_neededExp = 100;
+		_onHit = true;
+		
+		_hellfireAttackWeight = 2;
+		_hellfireHpDown = 20;
+
+		_skillType = 0;
+		_hellfireLimitDuration = 0;
+		_stunDuration = 0;
+		_immortalDuration = 0;
+		_poisonDuration = 0;
+		_silenceDuration = 0;
+		_portionsilenceDuration = 0;
+		_undeadDuration = 0;
 	}
 	virtual ~Creature()
 	{
@@ -52,18 +69,7 @@ public:
 	}
 	
 	
-	// 스킬 구현
-	//virtual void Storm() {};
-	//virtual void Poison(int dotDamage, int duration) {};
-	//virtual void Stun() {};
-	//virtual void Immortal(int duration) {};
-	//virtual void Silence(int duration) {};
-	//virtual void PortionSilence(int duration) {};
-	//virtual void Hellfire() {};
-	//virtual void Undead(int duration) {}; //필요가없다
 
-	
-	
 
 
 
@@ -102,38 +108,35 @@ public:
 	
 
 protected:
-	int _creatureType;
+	int _creatureType; // 몬스터, 플레이어
 	int _hp;
 	int _maxhp;
 	int _mp;
 	int _maxmp;
 	int _attack;
 	int _defence;
-	int _playerType;
+	int _playerType; // 직업
 	int _level;
 	int _exp;
 	int _neededExp;
-	// int _monsterType;
+	bool _onHit;
 
-	int _stunDuration; // stun 시간
-	//int _stunDuration_z; 필요 없을듯
 	
-	int _hellfireLimitDuration; // hellFire 제한시간
-	//int _hellfireLimitDuration_z; 필요없을듯
+	uint8_t _skillType;
+	
+	// 업화 가중치
+	int _hellfireAttackWeight; // 공격 가중치
+	int _hellfireHpDown; // 업화 체력 소모량
 
-
-	//bool _hellfireDebuff;
-	int _hellfireAttackWeight = 2;
-	int _hellfireHpDown = 20;
+	// 디버프 지속시간
+	int _hellfireLimitDuration; 
+	int _stunDuration; 
 	int _immortalDuration;
-	uint8_t _skillType = 0; 
-	// bool _poisonSW; 필요 없을듯
 	int _poisonDuration;
 	int _silenceDuration;
 	int _portionsilenceDuration;
 	int _undeadDuration;
 
-	bool _onHit;
 
 	
 };

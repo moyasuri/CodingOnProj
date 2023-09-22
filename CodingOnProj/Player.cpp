@@ -71,12 +71,26 @@ void Player::UsingItem() // 아이템)
 			case IT_HP:
 				if (_item[0].second > 0) // hp 포션 존재?
 				{
-					std::cout << "hp가 회복되었습니다." << std::endl;
-					--_item[0].second; // 포션개수 차감
-					_hp += 100; // hp 회복량
-					if (_hp > _maxhp) // maxhp 보다 높을 수 없음
-						_hp = _maxhp;
-					_loop = false;
+					if (andSkillType(ST_UNDEAD))
+					{
+						std::cout << "언데드가 걸려있습니다. hp가 감소되었습니다." << std::endl;
+						--_item[1].second;
+						_hp -= 100 / 2; // mp 회복량
+						if (_hp < 0)
+							_hp = 0;
+						_loop = false;
+
+					}
+					else
+					{
+						std::cout << "hp가 회복되었습니다." << std::endl;
+						--_item[0].second; // 포션개수 차감
+						_hp += 100; // hp 회복량
+						if (_hp > _maxhp) // maxhp 보다 높을 수 없음
+							_hp = _maxhp;
+						_loop = false;
+					}
+
 				}
 				else
 				{
@@ -88,12 +102,25 @@ void Player::UsingItem() // 아이템)
 			case IT_MP:
 				if (_item[1].second > 0)
 				{
-					std::cout << "mp가 회복되었습니다." << std::endl;
-					--_item[1].second;
-					_mp += 100; // mp 회복량
-					if (_mp > _maxmp)
-						_mp = _maxmp;
-					_loop = false;
+					if (andSkillType(ST_UNDEAD))
+					{
+						std::cout << "언데드가 걸려있습니다. mp가 감소되었습니다." << std::endl;
+						--_item[1].second;
+						_mp -= 100/2; // mp 회복량
+						if (_mp < 0)
+							_mp = 0;
+						_loop = false;
+
+					}
+					else
+					{
+						std::cout << "mp가 회복되었습니다." << std::endl;
+						--_item[1].second;
+						_mp += 100; // mp 회복량
+						if (_mp > _maxmp)
+							_mp = _maxmp;
+						_loop = false;
+					}
 				}
 				else
 				{
@@ -109,15 +136,15 @@ void Player::UsingItem() // 아이템)
 
 					std::cout << "모든 상태이상이 풀렸습니다." << std::endl;
 					--_item[2].second;
-					if (andSkillType(ST_HELLFIRE)) {
-						_skillType &= 0b00000000; // 상태이상 제거
-						SetandSkillType(ST_HELLFIRE);
+					if (andSkillType(ST_HELLFIRE)) { // 업화가 걸려있다면 가중치만 제거
+						SetandSkillType(0); // 상태이상 제거
+						SetorSkillType(ST_HELLFIRE); // 업화상태 풀리지 않음
 						_hellfireAttackWeight = 2;
 						_hellfireHpDown = 20;
 					}
 					else
 					{
-						_skillType &= 0b00000000; // 상태이상 제거
+						SetandSkillType(0); // 상태이상 제거
 					}
 					
 					_loop = false;
@@ -136,13 +163,10 @@ void Player::UsingItem() // 아이템)
 }
 
 void Player::DropItem() {
-
-	// 요주의 인물
-	int dropChance = rand() % 10 + 1;
-	if (dropChance > 2)
+	
+	double dropChance = (static_cast<double>(std::rand()) / RAND_MAX);
+	if (dropChance < 0.5)
 	{
-
-
 		int ItemNum_Rand = rand() % 3 + 1;
 		vector<int>ItemsDrop;
 		for (int i = 0; i < ItemNum_Rand;i++)
@@ -190,7 +214,7 @@ void Player::GetExp(int monsterType)
 			_exp += 100;
 			break;
 		case 4:
-			_exp += 500;
+			_exp += 1000;
 			break;
 	}
 

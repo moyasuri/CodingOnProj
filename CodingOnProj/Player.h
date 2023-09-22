@@ -41,9 +41,7 @@ public:
 	virtual bool NonItemCheck();
 	virtual void UsingItem();
 	virtual void PrintItemInfo();
-
 	virtual void DropItem();
-
 	virtual void GetExp(int monsterType);
 	virtual void LevelUpChk();
 
@@ -62,11 +60,11 @@ public:
 	Knight() : Player(PT_Knight)
 	{
 		std::cout << "기사가 생성되었습니다." << std::endl;
-		_hp = 15000;
-		_maxhp = 15000;
-		_mp = 50;
-		_maxmp = 50;
-		_attack = 10;
+		_hp = 500;
+		_maxhp = 500;
+		_mp = 100;
+		_maxmp = 100;
+		_attack = 30;
 		_defence = 5;
 
 	}
@@ -81,11 +79,11 @@ public:
 	Archer() : Player(PT_Archer)
 	{
 		std::cout << "궁수가 생성되었습니다." << std::endl;
-		_hp = 8000;
-		_maxhp = 8000;
-		_mp = 50;
-		_maxmp = 50;
-		_attack = 15;
+		_hp = 300;
+		_maxhp = 300;
+		_mp = 120;
+		_maxmp = 120;
+		_attack = 20;
 		_defence = 3;
 	}
 	
@@ -98,11 +96,11 @@ public:
 	Mage() : Player(PT_Mage)
 	{
 		std::cout << "마법사가 생성되었습니다." << std::endl;
-		_hp = 5000;
-		_maxhp = 5000;
-		_mp = 5000;
-		_maxmp = 5000;
-		_attack = 25;
+		_hp = 200;
+		_maxhp = 200;
+		_mp = 500;
+		_maxmp = 500;
+		_attack = 15;
 		_defence = 0;
 
 	}
