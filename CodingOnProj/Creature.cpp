@@ -112,25 +112,7 @@ void Creature::CheckStatus(){
 				
 			}
 		}
-		// 불굴의 의지 확인
-		if (_skillType & ST_IMMORTAL)
-		{
-			--_immortalDuration;
-			if (_hp <= 0)
-			{
-				_hp = 1;
-			}
-			
-			if (!_immortalDuration)
-			{
-				std::cout << "불굴의 의지 지속시간이 끝났습니다." << std::endl;
-				SetandSkillType(~ST_IMMORTAL);
-			}
-			else
-			{
-				std::cout << "앞으로 남은 불굴의 의지 턴수는 " << _immortalDuration << " 입니다." << std::endl;
-			}
-		}
+
 		
 		// 업화 확인
 		if (_skillType & ST_HELLFIRE) 
@@ -147,6 +129,26 @@ void Creature::CheckStatus(){
 				_hellfireAttackWeight *= 2;
 				_hellfireHpDown += 20;
 				std::cout << "지옥의 업화 남은 턴수는 " << _hellfireLimitDuration << " 입니다." << std::endl;
+			}
+		}
+
+		// 최후의 의지 확인
+		if (_skillType & ST_IMMORTAL)
+		{
+			--_immortalDuration;
+			if (_hp <= 0)
+			{
+				_hp = 1;
+			}
+
+			if (!_immortalDuration)
+			{
+				std::cout << "최후의 의지 지속시간이 끝났습니다." << std::endl;
+				SetandSkillType(~ST_IMMORTAL);
+			}
+			else
+			{
+				std::cout << "앞으로 남은 최후의 의지 턴수는 " << _immortalDuration << " 입니다." << std::endl;
 			}
 		}
 	}

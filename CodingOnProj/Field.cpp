@@ -27,7 +27,8 @@ void Field::CreateMonster()
 {
 	int randValue;
 	double monsterSeed = (static_cast<double>(std::rand()) / RAND_MAX);
-	if (monsterSeed < 0.1)
+	/*if (monsterSeed < 0.1)*/
+	if (1)
 	{
 		randValue = MT_DRAGON;
 		std::cout << "------------------------------------------------" << std::endl;
