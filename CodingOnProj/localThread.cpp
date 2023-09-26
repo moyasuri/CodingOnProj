@@ -6,7 +6,7 @@ using namespace std;
 int globalNum = 0;
 thread_local int tlNum = 0;
 
-// test
+// test2
 void fn()
 {
 	int fnNum = 2;
